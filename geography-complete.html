@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 Geography Explorer - Complete Interactive Learning for 5th Graders</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navigation {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .analogy-box h3 {
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+
+        .interactive-demo {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            color: #333;
+        }
+
+        .coordinate-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 2px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .grid-cell {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .grid-cell:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+        }
+
+        .grid-cell.clicked {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .landform-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            height: 200px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .landform {
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 0 10px;
+        }
+
+        .mountain {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid #8B4513;
+        }
+
+        .hill {
+            width: 80px;
+            height: 60px;
+            background: #228B22;
+            border-radius: 50px 50px 0 0;
+        }
+
+        .valley {
+            width: 100px;
+            height: 30px;
+            background: #4169E1;
+            border-radius: 0 0 50px 50px;
+        }
+
+        .plain {
+            width: 120px;
+            height: 40px;
+            background: #DAA520;
+        }
+
+        .plateau {
+            width: 100px;
+            height: 80px;
+            background: #CD853F;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .map-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .map-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .map-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .theme-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .theme-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-card:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #e3f2fd;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .quiz-explanation {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .matching-column {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .matching-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .matching-item:hover {
+            background: #e9ecef;
+        }
+
+        .matching-item.selected {
+            border-color: #667eea;
+            background: #e3f2fd;
+        }
+
+        .matching-item.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .climate-zones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .climate-card {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .climate-card:hover {
+            transform: scale(1.05);
+        }
+
+        .tropical {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .desert {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .temperate {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .polar {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .coordinate-grid {
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Geography Explorer: Complete Interactive Learning</h1>
+            <p>Master ALL geography concepts with fun analogies, interactive activities, and comprehensive quizzes!</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="overallProgress"></div>
+            </div>
+            <p id="progressText">Progress: 0% Complete</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('intro')">🌟 Introduction</button>
+            <button class="nav-btn" onclick="showSection('themes')">🎯 Five Themes</button>
+            <button class="nav-btn" onclick="showSection('location')">📍 Location & Coordinates</button>
+            <button class="nav-btn" onclick="showSection('maps')">🗺️ Types of Maps</button>
+            <button class="nav-btn" onclick="showSection('landforms')">🏔️ Landforms</button>
+            <button class="nav-btn" onclick="showSection('climate')">🌤️ Climate & Weather</button>
+            <button class="nav-btn" onclick="showSection('resources')">🌿 Resources</button>
+            <button class="nav-btn" onclick="showSection('movement')">🚀 Movement</button>
+            <button class="nav-btn" onclick="showSection('tools')">🛰️ Geographic Tools</button>
+            <button class="nav-btn" onclick="showSection('quiz')">🏆 Complete Quiz</button>
+        </div>
+
+        <!-- Introduction Section -->
+        <div id="intro" class="section active">
+            <h2>🌟 Welcome to Geography Explorer!</h2>
+            
+            <div class="analogy-box">
+                <h3>🕵️ Geography is Like Being a World Detective!</h3>
+                <p>Imagine you're a detective solving mysteries about our amazing planet Earth! Geography helps you discover:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>WHERE</strong> things are located (like finding clues on a map)</li>
+                    <li><strong>WHAT</strong> makes places special and unique</li>
+                    <li><strong>HOW</strong> people and places connect and influence each other</li>
+                    <li><strong>WHY</strong> things happen in certain places</li>
+                </ul>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🎯 Learning Topics</h3>
+                    <div class="number">10</div>
+                    <p>Complete Sections</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🗺️ Map Types</h3>
+                    <div class="number">6</div>
+                    <p>Different Maps</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🏔️ Landforms</h3>
+                    <div class="number">8</div>
+                    <p>Earth Features</p>
+                </div>
+                <div class="stat-card">
+                    <h3>❓ Quiz Questions</h3>
+                    <div class="number">30</div>
+                    <p>Comprehensive Test</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 What You'll Master</h3>
+                <p>By the end of this journey, you'll be a geography expert who can:</p>
+                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                    <li>🧭 Find any location on Earth using coordinates</li>
+                    <li>🗺️ Read and understand different types of maps</li>
+                    <li>🏔️ Identify and explain how landforms are created</li>
+                    <li>🌤️ Understand weather patterns and climate zones</li>
+                    <li>🌿 Explain how humans interact with the environment</li>
+                    <li>🚀 Describe how people, goods, and ideas move around the world</li>
+                    <li>🛰️ Use modern geographic tools like GPS and GIS</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="showSection('themes')" style="font-size: 18px; padding: 15px 30px;">
+                    🚀 Start Your Geography Adventure!
+                </button>
+            </div>
+        </div>
+
+        <!-- Five Themes Section -->
+        <div id="themes" class="section">
+            <h2>🎯 The Five Themes of Geography</h2>
+            
+            <div class="analogy-box">
+                <h3>🏠 Think of Geography Like Describing Your House!</h3>
+                <p>When you tell someone about your house, you naturally use the five themes of geography:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Location:</strong> "My house is at 123 Main Street" (WHERE it is)</li>
+                    <li><strong>Place:</strong> "It's a blue house with a big yard" (WHAT it's like)</li>
+                    <li><strong>Human-Environment Interaction:</strong> "We planted trees for shade" (HOW we adapt)</li>
+                    <li><strong>Movement:</strong> "I walk to school from here" (HOW things connect)</li>
+                    <li><strong>Region:</strong> "It's in the suburbs" (WHAT area it belongs to)</li>
+                </ul>
+            </div>
+
+            <div class="theme-cards">
+                <div class="theme-card">
+                    <h3>📍 1. LOCATION</h3>
+                    <p><strong>Where is it?</strong></p>
+                    <p>Every place on Earth has an address! We use coordinates (latitude and longitude) like a giant grid system to find exact locations.</p>
+                    <div style="margin-top: 15px;">
+                        <strong>Example:</strong> "The Statue of Liberty is at 40.7°N, 74.0°W"
+                    </div>
+                </div>
+
+                <div class="theme-card">
+                    <h3>🏞️ 2. PLACE</h3>
+                    <p><strong>What is it like?</strong></p>
+                    <p>Every place has unique characteristics - both physical (mountains, rivers) and human (buildings, culture) features that make it special.</p>
+                    <div style="margin-top: 15px;">
+                        <strong>Example:</strong> "Hawaii has volcanoes, beaches, and tropical culture"
+                    </div>
+                </div>
+
+                <div class="theme-card">
+                    <h3>🤝 3. HUMAN-ENVIRONMENT INTERACTION</h3>
+                    <p><strong>How do people and nature work together?</strong></p>
+                    <p>People adapt to their environment, modify it, and depend on it. It's like a constant conversation between humans and nature!</p>
+                    <div style="margin-top: 15px;">
+                        <strong>Example:</strong> "People in Alaska wear warm clothes (adapt) and heat their homes (modify)"
+                    </div>
+                </div>
+
+                <div class="theme-card">
+                    <h3>🚀 4. MOVEMENT</h3>
+                    <p><strong>How do people, goods, and ideas travel?</strong></p>
+                    <p>Everything moves! People migrate, goods are traded, and ideas spread through communication and transportation.</p>
+                    <div style="margin-top: 15px;">
+                        <strong>Example:</strong> "Bananas grown in Ecuador are sold in New York supermarkets"
+                    </div>
+                </div>
+
+                <div class="theme-card">
+                    <h3>🌎 5. REGION</h3>
+                    <p><strong>How are places similar and connected?</strong></p>
+                    <p>Areas that share common characteristics form regions. It's like organizing the world into neighborhoods with similar features.</p>
+                    <div style="margin-top: 15px;">
+                        <strong>Example:</strong> "The Sahara Desert region shares hot, dry climate across multiple countries"
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 Practice the Five Themes</h3>
+                <p>Click on each theme to see more examples:</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0;">
+                    <button class="btn" onclick="showThemeExample('location')">📍 Location Examples</button>
+                    <button class="btn" onclick="showThemeExample('place')">🏞️ Place Examples</button>
+                    <button class="btn" onclick="showThemeExample('interaction')">🤝 Interaction Examples</button>
+                    <button class="btn" onclick="showThemeExample('movement')">🚀 Movement Examples</button>
+                    <button class="btn" onclick="showThemeExample('region')">🌎 Region Examples</button>
+                </div>
+                <div id="themeExamples" style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; display: none;">
+                    <!-- Theme examples will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Location & Coordinates Section -->
+        <div id="location" class="section">
+            <h2>📍 Location & Coordinates</h2>
+            
+            <div class="analogy-box">
+                <h3>🎯 Earth's Address System</h3>
+                <p>Imagine Earth as a giant game of Battleship! We use a grid system with:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Latitude:</strong> Horizontal lines like ladder rungs (North ↔ South)</li>
+                    <li><strong>Longitude:</strong> Vertical lines like guitar strings (East ↔ West)</li>
+                    <li><strong>Equator:</strong> Earth's "belt" at 0° latitude - the middle line!</li>
+                    <li><strong>Prime Meridian:</strong> Earth's "starting line" at 0° longitude</li>
+                </ul>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 Interactive Coordinate Grid</h3>
+                <p>Click on any square to see its coordinates! Each click shows you latitude and longitude.</p>
+                <div class="coordinate-grid" id="coordinateGrid">
+                    <!-- Grid cells will be generated by JavaScript -->
+                </div>
+                <div id="coordinateDisplay" style="text-align: center; font-size: 18px; font-weight: bold; margin-top: 15px;">
+                    Click on a grid square to see its coordinates!
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🌍 Equator</h3>
+                    <div class="number">0°</div>
+                    <p>Latitude</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🌐 Prime Meridian</h3>
+                    <div class="number">0°</div>
+                    <p>Longitude</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📏 Latitude Range</h3>
+                    <div class="number">180°</div>
+                    <p>90°N to 90°S</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📐 Longitude Range</h3>
+                    <div class="number">360°</div>
+                    <p>180°W to 180°E</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🗺️ Absolute vs Relative Location</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #1976d2;">📍 Absolute Location</h4>
+                        <p><strong>Exact coordinates - like a street address!</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Uses latitude and longitude</li>
+                            <li>Never changes</li>
+                            <li>Example: "40.7°N, 74.0°W"</li>
+                        </ul>
+                    </div>
+                    <div style="background: #f3e5f5; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #7b1fa2;">📍 Relative Location</h4>
+                        <p><strong>Compared to other places - like giving directions!</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Uses nearby landmarks</li>
+                            <li>Can change over time</li>
+                            <li>Example: "Next to the library"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Types of Maps Section -->
+        <div id="maps" class="section">
+            <h2>🗺️ Types of Maps</h2>
+            
+            <div class="analogy-box">
+                <h3>📚 Maps are Like Different Types of Books!</h3>
+                <p>Just like you choose different books for different purposes, we use different maps for different needs:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Road Map:</strong> Like a travel guide for driving</li>
+                    <li><strong>Physical Map:</strong> Like a nature book showing landforms</li>
+                    <li><strong>Political Map:</strong> Like a government textbook showing countries</li>
+                    <li><strong>Climate Map:</strong> Like a weather report for the whole world</li>
+                </ul>
+            </div>
+
+            <div class="map-gallery">
+                <div class="map-card">
+                    <h4>🛣️ Road Maps</h4>
+                    <p><strong>For traveling and navigation</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Show highways, streets, and routes</li>
+                        <li>Include gas stations and rest stops</li>
+                        <li>Help plan trips and find directions</li>
+                        <li>Like GPS on your phone!</li>
+                    </ul>
+                    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>When to use:</strong> Planning a family road trip
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h4>🏔️ Physical Maps</h4>
+                    <p><strong>Show natural features of Earth</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Mountains, rivers, lakes, deserts</li>
+                        <li>Use colors: blue for water, brown for mountains</li>
+                        <li>Show elevation (how high land is)</li>
+                        <li>Like a picture of Earth's natural decorations!</li>
+                    </ul>
+                    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>When to use:</strong> Learning about landforms and natural features
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h4>🏛️ Political Maps</h4>
+                    <p><strong>Show human-made boundaries</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Countries, states, cities</li>
+                        <li>Borders and capitals</li>
+                        <li>Different colors for different countries</li>
+                        <li>Like a puzzle showing how humans organize Earth!</li>
+                    </ul>
+                    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>When to use:</strong> Learning about countries and governments
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h4>🌡️ Climate Maps</h4>
+                    <p><strong>Show weather patterns and temperature</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Temperature zones and rainfall</li>
+                        <li>Seasonal weather patterns</li>
+                        <li>Use colors: red for hot, blue for cold</li>
+                        <li>Like a weather forecast for the whole world!</li>
+                    </ul>
+                    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>When to use:</strong> Understanding weather and climate zones
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h4>📏 Topographic Maps</h4>
+                    <p><strong>Show elevation and land height</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Contour lines show how steep land is</li>
+                        <li>Very detailed and precise</li>
+                        <li>Used by hikers and surveyors</li>
+                        <li>Like a 3D model flattened onto paper!</li>
+                    </ul>
+                    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>When to use:</strong> Hiking, construction, detailed land study
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h4>📊 Cartogram Maps</h4>
+                    <p><strong>Show data by changing country sizes</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Countries sized by population or data</li>
+                        <li>Distort shapes to show information</li>
+                        <li>Make statistics visual and easy to understand</li>
+                        <li>Like a fun-house mirror for maps!</li>
+                    </ul>
+                    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>When to use:</strong> Comparing data between countries
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 Map Type Quiz</h3>
+                <p>Test your knowledge! Which map would you use for each situation?</p>
+                <div id="mapQuiz" style="background: white; padding: 20px; border-radius: 10px;">
+                    <div class="quiz-question">
+                        <p><strong>Scenario:</strong> You want to drive from New York to Florida and need to find the best highways.</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectMapType(this, 'correct')">🛣️ Road Map</div>
+                            <div class="quiz-option" onclick="selectMapType(this, 'incorrect')">🏔️ Physical Map</div>
+                            <div class="quiz-option" onclick="selectMapType(this, 'incorrect')">🏛️ Political Map</div>
+                            <div class="quiz-option" onclick="selectMapType(this, 'incorrect')">🌡️ Climate Map</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landforms Section -->
+        <div id="landforms" class="section">
+            <h2>🏔️ Landforms & Physical Features</h2>
+            
+            <div class="analogy-box">
+                <h3>🏗️ Earth is Like a Giant Construction Site!</h3>
+                <p>Imagine Earth as a construction site that's been working for billions of years:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Tectonic Plates:</strong> Like giant puzzle pieces pushing and pulling</li>
+                    <li><strong>Erosion:</strong> Like sandpaper slowly wearing things down</li>
+                    <li><strong>Weathering:</strong> Like rain and wind chiseling sculptures</li>
+                    <li><strong>Time:</strong> Millions of years to create amazing landforms!</li>
+                </ul>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 Interactive Landform Visualizer</h3>
+                <p>Click on each button to see different landforms!</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0;">
+                    <button class="btn" onclick="showLandform('mountain')">🏔️ Mountain</button>
+                    <button class="btn" onclick="showLandform('hill')">🏞️ Hill</button>
+                    <button class="btn" onclick="showLandform('valley')">🏞️ Valley</button>
+                    <button class="btn" onclick="showLandform('plain')">🌾 Plain</button>
+                    <button class="btn" onclick="showLandform('plateau')">🏔️ Plateau</button>
+                </div>
+                <div class="landform-visualizer" id="landformDisplay">
+                    <div class="landform mountain" id="landformShape"></div>
+                </div>
+                <div id="landformDescription" style="text-align: center; margin-top: 15px; font-size: 16px; font-weight: bold;">
+                    Click a landform button to see it here!
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🏔️ Highest Mountain</h3>
+                    <div class="number">29,032</div>
+                    <p>feet (Mt. Everest)</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🌊 Deepest Ocean</h3>
+                    <div class="number">36,200</div>
+                    <p>feet (Mariana Trench)</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🏜️ Largest Desert</h3>
+                    <div class="number">3.6M</div>
+                    <p>sq miles (Sahara)</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🌊 Longest River</h3>
+                    <div class="number">4,132</div>
+                    <p>miles (Nile River)</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🧠 Landform Analogies</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4>🏔️ Mountains</h4>
+                        <p><strong>Like giant bumps on Earth's surface</strong></p>
+                        <p>Formed when tectonic plates push together, like when you push two pieces of clay together and they buckle up!</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4>🏞️ Hills</h4>
+                        <p><strong>Like mini-mountains or gentle bumps</strong></p>
+                        <p>Smaller and rounder than mountains, like small waves in the land!</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4>🏞️ Valleys</h4>
+                        <p><strong>Like the bottom of a bowl between mountains</strong></p>
+                        <p>Carved by rivers over millions of years, like water carving a path through sand!</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4>🌾 Plains</h4>
+                        <p><strong>Like a huge, flat playground</strong></p>
+                        <p>Great for farming because they're flat and have good soil!</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4>🏔️ Plateaus</h4>
+                        <p><strong>Like a giant table on stilts</strong></p>
+                        <p>High, flat land that rises above the surrounding area!</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4>🏝️ Islands</h4>
+                        <p><strong>Like land floating in water</strong></p>
+                        <p>Completely surrounded by water, formed by volcanoes or rising sea levels!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Climate Section -->
+        <div id="climate" class="section">
+            <h2>🌤️ Climate & Weather</h2>
+            
+            <div class="analogy-box">
+                <h3>👤 Weather vs Climate: Personality vs Mood</h3>
+                <p>Think of the difference like this:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Weather:</strong> Like your mood today - changes quickly!</li>
+                    <li><strong>Climate:</strong> Like your personality - stays the same over time!</li>
+                </ul>
+                <p>Weather is what's happening outside RIGHT NOW. Climate is the usual weather pattern over many, many years (30+ years)!</p>
+            </div>
+
+            <div class="climate-zones">
+                <div class="climate-card tropical">
+                    <h3>🌴 Tropical Climate</h3>
+                    <p><strong>Hot and humid all year</strong></p>
+                    <ul style="margin: 10px 0 0 20px; text-align: left;">
+                        <li>Near the equator</li>
+                        <li>Lots of rain</li>
+                        <li>Rainforests and jungles</li>
+                        <li>Like living in a warm, steamy bathroom!</li>
+                    </ul>
+                </div>
+
+                <div class="climate-card desert">
+                    <h3>🏜️ Desert Climate</h3>
+                    <p><strong>Hot and very dry</strong></p>
+                    <ul style="margin: 10px 0 0 20px; text-align: left;">
+                        <li>Very little rainfall</li>
+                        <li>Hot days, cool nights</li>
+                        <li>Cacti and drought-resistant plants</li>
+                        <li>Like living in an oven!</li>
+                    </ul>
+                </div>
+
+                <div class="climate-card temperate">
+                    <h3>🍂 Temperate Climate</h3>
+                    <p><strong>Four distinct seasons</strong></p>
+                    <ul style="margin: 10px 0 0 20px; text-align: left;">
+                        <li>Spring, summer, fall, winter</li>
+                        <li>Moderate temperatures</li>
+                        <li>Deciduous forests</li>
+                        <li>Like living in a place with variety!</li>
+                    </ul>
+                </div>
+
+                <div class="climate-card polar">
+                    <h3>❄️ Polar Climate</h3>
+                    <p><strong>Cold all year round</strong></p>
+                    <ul style="margin: 10px 0 0 20px; text-align: left;">
+                        <li>Near the North and South poles</li>
+                        <li>Ice and snow</li>
+                        <li>Very few plants</li>
+                        <li>Like living in a freezer!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🌍 What Affects Climate?</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px;">
+                        <h4>☀️ Distance from Equator</h4>
+                        <p>Places near the equator are hotter because they get more direct sunlight - like being closer to a campfire!</p>
+                    </div>
+                    <div style="background: #d1ecf1; padding: 20px; border-radius: 10px;">
+                        <h4>🌊 Distance from Ocean</h4>
+                        <p>Oceans keep temperatures moderate - like a giant air conditioner that cools in summer and warms in winter!</p>
+                    </div>
+                    <div style="background: #f8d7da; padding: 20px; border-radius: 10px;">
+                        <h4>⛰️ Elevation (Height)</h4>
+                        <p>Higher places are colder - like climbing a tall ladder into cooler air! It gets colder as you go up!</p>
+                    </div>
+                    <div style="background: #d4edda; padding: 20px; border-radius: 10px;">
+                        <h4>💨 Wind Patterns</h4>
+                        <p>Winds carry warm or cool air around the world - like Earth's natural heating and cooling system!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div id="resources" class="section">
+            <h2>🌿 Resources & Environment</h2>
+            
+            <div class="analogy-box">
+                <h3>🎁 Earth's Gift Shop</h3>
+                <p>Think of Earth as a giant gift shop with two types of presents:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Renewable Gifts:</strong> Like a magic box that refills itself (trees, water, wind)</li>
+                    <li><strong>Non-Renewable Gifts:</strong> Like a limited edition item - once it's gone, it's gone! (oil, coal, minerals)</li>
+                </ul>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+                <div style="background: #d4edda; padding: 25px; border-radius: 15px;">
+                    <h3 style="color: #155724;">♻️ Renewable Resources</h3>
+                    <p><strong>Can be replaced or regrown</strong></p>
+                    <ul style="margin: 15px 0 0 20px;">
+                        <li>🌳 <strong>Trees:</strong> Can be replanted and regrown</li>
+                        <li>💧 <strong>Water:</strong> Recycled through the water cycle</li>
+                        <li>☀️ <strong>Solar Energy:</strong> Sun shines every day</li>
+                        <li>💨 <strong>Wind Energy:</strong> Wind always blows somewhere</li>
+                        <li>🌊 <strong>Hydroelectric:</strong> Rivers keep flowing</li>
+                    </ul>
+                </div>
+
+                <div style="background: #f8d7da; padding: 25px; border-radius: 15px;">
+                    <h3 style="color: #721c24;">⛽ Non-Renewable Resources</h3>
+                    <p><strong>Take millions of years to form</strong></p>
+                    <ul style="margin: 15px 0 0 20px;">
+                        <li>🛢️ <strong>Oil:</strong> From ancient sea creatures</li>
+                        <li>⚫ <strong>Coal:</strong> From ancient forests</li>
+                        <li>⛽ <strong>Natural Gas:</strong> From buried organic matter</li>
+                        <li>💎 <strong>Minerals:</strong> Formed deep in Earth</li>
+                        <li>⚛️ <strong>Uranium:</strong> For nuclear energy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🤝 Human-Environment Interaction: The Three Ways</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #1976d2;">🏠 ADAPT</h4>
+                        <p><strong>Changing how we live to fit the environment</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Wearing coats in winter</li>
+                            <li>Building houses on stilts in flood areas</li>
+                            <li>Using air conditioning in hot places</li>
+                            <li>Like adjusting your clothes for the weather!</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #f3e5f5; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #7b1fa2;">🔨 MODIFY</h4>
+                        <p><strong>Changing the environment to fit our needs</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Building dams to control rivers</li>
+                            <li>Cutting down forests for farms</li>
+                            <li>Creating irrigation for crops</li>
+                            <li>Like rearranging your room to make it better!</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #f57c00;">🌱 DEPEND</h4>
+                        <p><strong>Using what the environment provides</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Farming with natural soil</li>
+                            <li>Using rivers for transportation</li>
+                            <li>Getting energy from wind and sun</li>
+                            <li>Like using what nature gives us!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movement Section -->
+        <div id="movement" class="section">
+            <h2>🚀 Movement: How Things Connect</h2>
+            
+            <div class="analogy-box">
+                <h3>🩸 Earth's Circulatory System</h3>
+                <p>Just like your body has blood vessels carrying nutrients everywhere, Earth has "movement systems" that carry people, goods, and ideas around the world!</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Transportation networks:</strong> Like blood vessels</li>
+                    <li><strong>People, goods, ideas:</strong> Like nutrients flowing through the system</li>
+                    <li><strong>Cities and ports:</strong> Like the heart pumping everything around</li>
+                </ul>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px;">
+                    <h3>👥 People Movement</h3>
+                    <p><strong>Humans traveling from place to place</strong></p>
+                    <ul style="margin: 15px 0 0 20px;">
+                        <li>Families moving to new cities</li>
+                        <li>Students going to school</li>
+                        <li>Tourists visiting other countries</li>
+                        <li>People immigrating for better opportunities</li>
+                    </ul>
+                    <div style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 5px; margin-top: 15px;">
+                        <strong>Like:</strong> People flowing like water finding the best path!
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; padding: 25px; border-radius: 15px;">
+                    <h3>📦 Goods Movement</h3>
+                    <p><strong>Products and materials being transported</strong></p>
+                    <ul style="margin: 15px 0 0 20px;">
+                        <li>Food from farms to grocery stores</li>
+                        <li>Toys made in one country, sold in another</li>
+                        <li>Oil transported by ships and trucks</li>
+                        <li>Mail and packages delivered</li>
+                    </ul>
+                    <div style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 5px; margin-top: 15px;">
+                        <strong>Like:</strong> A giant conveyor belt moving things around the world!
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; padding: 25px; border-radius: 15px;">
+                    <h3>💡 Ideas Movement</h3>
+                    <p><strong>Information and knowledge spreading</strong></p>
+                    <ul style="margin: 15px 0 0 20px;">
+                        <li>News shared on TV and internet</li>
+                        <li>Music and movies from other cultures</li>
+                        <li>Scientific discoveries shared worldwide</li>
+                        <li>Social media connecting people globally</li>
+                    </ul>
+                    <div style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 5px; margin-top: 15px;">
+                        <strong>Like:</strong> Lightning-fast thoughts jumping from brain to brain!
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🛣️ Transportation Networks</h3>
+                <p>The "highways" that connect our world:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🛣️</div>
+                        <h4>Roads & Highways</h4>
+                        <p>Connect cities and towns by land</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🚢</div>
+                        <h4>Waterways</h4>
+                        <p>Rivers and oceans for ships</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">✈️</div>
+                        <h4>Airways</h4>
+                        <p>Flight paths for airplanes</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🚂</div>
+                        <h4>Railways</h4>
+                        <p>Train tracks for cargo and passengers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geographic Tools Section -->
+        <div id="tools" class="section">
+            <h2>🛰️ Geographic Tools</h2>
+            
+            <div class="analogy-box">
+                <h3>🧰 Geography's Toolbox</h3>
+                <p>Just like a carpenter has different tools for different jobs, geographers have special tools to study Earth:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Maps:</strong> Like photographs of Earth from above</li>
+                    <li><strong>GPS:</strong> Like having a friend in the sky who always knows where you are</li>
+                    <li><strong>Satellites:</strong> Like super-powered eyes in space</li>
+                    <li><strong>GIS:</strong> Like a super-smart computer that layers information</li>
+                </ul>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 10px;">
+                    <h3>🗺️ Maps</h3>
+                    <p><strong>Flat pictures that show us places on Earth</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Political maps show countries and borders</li>
+                        <li>Physical maps show landforms and water</li>
+                        <li>Road maps show streets and highways</li>
+                        <li>Climate maps show weather patterns</li>
+                    </ul>
+                    <div style="background: rgba(25,118,210,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Like:</strong> Earth's photo album with different types of pictures!
+                    </div>
+                </div>
+
+                <div style="background: #f3e5f5; padding: 20px; border-radius: 10px;">
+                    <h3>🌍 Globes</h3>
+                    <p><strong>Mini-Earths you can hold and spin!</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Show Earth's true round shape</li>
+                        <li>Distances and sizes are accurate</li>
+                        <li>You can see how Earth spins</li>
+                        <li>No distortion like flat maps have</li>
+                    </ul>
+                    <div style="background: rgba(123,31,162,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Like:</strong> Having Earth as your personal toy!
+                    </div>
+                </div>
+
+                <div style="background: #fff3e0; padding: 20px; border-radius: 10px;">
+                    <h3>🛰️ Satellites</h3>
+                    <p><strong>Space cameras that watch Earth from above</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Track storms and predict weather</li>
+                        <li>Take pictures to make maps</li>
+                        <li>Watch for changes on Earth</li>
+                        <li>Help phones and internet work</li>
+                    </ul>
+                    <div style="background: rgba(245,124,0,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Like:</strong> Super-powered eyes floating in space!
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                    <h3>📱 GPS</h3>
+                    <p><strong>Global Positioning System - your personal location finder</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Navigation in cars</li>
+                        <li>Finding friends with phone apps</li>
+                        <li>Emergency services finding people</li>
+                        <li>Marking favorite places</li>
+                    </ul>
+                    <div style="background: rgba(76,175,80,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Like:</strong> A friend in the sky who always knows where you are!
+                    </div>
+                </div>
+
+                <div style="background: #fce4ec; padding: 20px; border-radius: 10px;">
+                    <h3>🖥️ GIS</h3>
+                    <p><strong>Geographic Information Systems - super-smart computers</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Layers different types of information</li>
+                        <li>City planners use it to design neighborhoods</li>
+                        <li>Scientists track animal movements</li>
+                        <li>Emergency workers plan rescue routes</li>
+                    </ul>
+                    <div style="background: rgba(233,30,99,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Like:</strong> A computer that can stack maps like pancakes!
+                    </div>
+                </div>
+
+                <div style="background: #f1f8e9; padding: 20px; border-radius: 10px;">
+                    <h3>📚 Atlas</h3>
+                    <p><strong>A book full of many different maps</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>World atlas: Maps of all countries</li>
+                        <li>Road atlas: Detailed driving maps</li>
+                        <li>Historical atlas: Maps from the past</li>
+                        <li>Reference tool for research</li>
+                    </ul>
+                    <div style="background: rgba(139,195,74,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Like:</strong> A library full of maps!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="section">
+            <h2>🏆 Complete Geography Quiz</h2>
+            
+            <div class="quiz-section">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h3>🎯 Test Your Geography Knowledge!</h3>
+                    <p>30 comprehensive questions covering everything you've learned</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quizProgress"></div>
+                    </div>
+                    <p id="quizProgressText">Question 0 of 30</p>
+                </div>
+
+                <div id="quizContainer">
+                    <div style="text-align: center; padding: 40px;">
+                        <button class="btn" onclick="startQuiz()" style="font-size: 18px; padding: 15px 30px;">
+                            🚀 Start the Complete Quiz!
+                        </button>
+                    </div>
+                </div>
+
+                <div id="quizResults" style="display: none; text-align: center; padding: 30px;">
+                    <h3>🎉 Quiz Complete!</h3>
+                    <div id="finalScore" style="font-size: 3em; font-weight: bold; color: #667eea; margin: 20px 0;"></div>
+                    <div id="scoreMessage" style="font-size: 1.2em; margin: 20px 0;"></div>
+                    <button class="btn" onclick="restartQuiz()">🔄 Take Quiz Again</button>
+                    <button class="btn secondary" onclick="showSection('intro')">📚 Review Lessons</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 'intro';
+        let completedSections = new Set();
+        let quizData = [];
+        let currentQuizQuestion = 0;
+        let quizAnswers = {};
+        let quizStarted = false;
+
+        // Comprehensive quiz questions
+        const allQuizQuestions = [
+            // Five Themes Questions
+            {
+                type: 'multiple',
+                question: "Which of the Five Themes of Geography asks 'Where is it?'",
+                options: ["Location", "Place", "Movement", "Region"],
+                correct: 0,
+                explanation: "Location is the theme that asks 'Where is it?' and deals with absolute and relative position."
+            },
+            {
+                type: 'multiple',
+                question: "Building houses on stilts in flood-prone areas is an example of which theme?",
+                options: ["Location", "Place", "Human-Environment Interaction", "Movement"],
+                correct: 2,
+                explanation: "This is Human-Environment Interaction, specifically adapting to the environment."
+            },
+            {
+                type: 'multiple',
+                question: "The Sahara Desert region sharing similar climate across multiple countries is an example of which theme?",
+                options: ["Location", "Place", "Movement", "Region"],
+                correct: 3,
+                explanation: "Region groups areas that share common characteristics, like the Sahara's hot, dry climate."
+            },
+
+            // Location & Coordinates Questions
+            {
+                type: 'multiple',
+                question: "What is the imaginary line that runs around the middle of the Earth called?",
+                options: ["Prime Meridian", "Equator", "Latitude", "Longitude"],
+                correct: 1,
+                explanation: "The Equator is the imaginary line at 0° latitude that divides Earth into Northern and Southern hemispheres."
+            },
+            {
+                type: 'multiple',
+                question: "Latitude lines are like:",
+                options: ["Guitar strings", "Ladder rungs", "Tree branches", "River paths"],
+                correct: 1,
+                explanation: "Latitude lines run horizontally around Earth, like the rungs of a ladder."
+            },
+            {
+                type: 'multiple',
+                question: "The Prime Meridian is located at:",
+                options: ["0° latitude", "0° longitude", "90° latitude", "180° longitude"],
+                correct: 1,
+                explanation: "The Prime Meridian is at 0° longitude and divides Earth into Eastern and Western hemispheres."
+            },
+            {
+                type: 'multiple',
+                question: "'The library is next to the post office' is an example of:",
+                options: ["Absolute location", "Relative location", "Latitude", "Longitude"],
+                correct: 1,
+                explanation: "Relative location describes where something is compared to other places."
+            },
+
+            // Map Types Questions
+            {
+                type: 'multiple',
+                question: "Which type of map would be best for planning a road trip?",
+                options: ["Physical map", "Climate map", "Road map", "Topographic map"],
+                correct: 2,
+                explanation: "Road maps show streets, highways, and routes needed for travel planning."
+            },
+            {
+                type: 'multiple',
+                question: "A map that shows countries, states, and borders is called a:",
+                options: ["Physical map", "Political map", "Climate map", "Topographic map"],
+                correct: 1,
+                explanation: "Political maps show human-made boundaries like countries, states, and cities."
+            },
+            {
+                type: 'multiple',
+                question: "Which map type uses contour lines to show elevation?",
+                options: ["Road map", "Political map", "Topographic map", "Climate map"],
+                correct: 2,
+                explanation: "Topographic maps use contour lines to show the height and steepness of land."
+            },
+            {
+                type: 'multiple',
+                question: "A cartogram map changes the size of countries to show:",
+                options: ["Their real size", "Population or data", "Their location", "Their climate"],
+                correct: 1,
+                explanation: "Cartograms distort country sizes to represent data like population or economic information."
+            },
+            {
+                type: 'multiple',
+                question: "Which map would show temperature zones and rainfall patterns?",
+                options: ["Physical map", "Political map", "Climate map", "Road map"],
+                correct: 2,
+                explanation: "Climate maps show weather patterns, temperature zones, and precipitation."
+            },
+
+            // Landforms Questions
+            {
+                type: 'multiple',
+                question: "Which landform is like a giant table on stilts?",
+                options: ["Mountain", "Valley", "Plateau", "Plain"],
+                correct: 2,
+                explanation: "A plateau is high, flat land that rises above the surrounding area, like a table on stilts."
+            },
+            {
+                type: 'multiple',
+                question: "What creates most landforms over time?",
+                options: ["Wind erosion only", "Tectonic plates and erosion", "Human activities", "Ocean waves only"],
+                correct: 1,
+                explanation: "Landforms are created by tectonic plate movements and erosion working together over millions of years."
+            },
+            {
+                type: 'multiple',
+                question: "A valley is most like:",
+                options: ["A giant bump", "The bottom of a bowl", "A flat table", "A steep wall"],
+                correct: 1,
+                explanation: "Valleys are low areas between hills or mountains, like the bottom of a bowl."
+            },
+            {
+                type: 'multiple',
+                question: "Which landform is best for farming?",
+                options: ["Mountains", "Valleys", "Plains", "Plateaus"],
+                correct: 2,
+                explanation: "Plains are flat areas with good soil, making them ideal for farming."
+            },
+
+            // Climate Questions
+            {
+                type: 'multiple',
+                question: "What is the main difference between weather and climate?",
+                options: ["Weather is hot, climate is cold", "Weather changes daily, climate is long-term patterns", "Weather is measured, climate is not", "There is no difference"],
+                correct: 1,
+                explanation: "Weather is what's happening now, while climate is the usual weather pattern over 30+ years."
+            },
+            {
+                type: 'multiple',
+                question: "Places near the equator are usually hot because:",
+                options: ["They are closer to the sun", "They get more direct sunlight", "They have no seasons", "They are at sea level"],
+                correct: 1,
+                explanation: "Places near the equator receive more direct sunlight year-round, making them hotter."
+            },
+            {
+                type: 'multiple',
+                question: "Which climate zone is like 'living in an oven'?",
+                options: ["Tropical", "Desert", "Temperate", "Polar"],
+                correct: 1,
+                explanation: "Desert climates are very hot and dry, like living in an oven."
+            },
+            {
+                type: 'multiple',
+                question: "Higher elevations are colder because:",
+                options: ["They are farther from the equator", "Air gets thinner and cooler with altitude", "They get less sunlight", "They are closer to space"],
+                correct: 1,
+                explanation: "As you go higher, the air becomes thinner and cooler, like climbing into cooler air."
+            },
+
+            // Resources Questions
+            {
+                type: 'multiple',
+                question: "Which of these is a renewable resource?",
+                options: ["Coal", "Oil", "Trees", "Natural gas"],
+                correct: 2,
+                explanation: "Trees are renewable because they can be replanted and regrown, unlike fossil fuels."
+            },
+            {
+                type: 'multiple',
+                question: "Non-renewable resources take _______ to form:",
+                options: ["Days", "Years", "Decades", "Millions of years"],
+                correct: 3,
+                explanation: "Non-renewable resources like oil and coal take millions of years to form from ancient organic matter."
+            },
+            {
+                type: 'multiple',
+                question: "Using air conditioning in hot places is an example of:",
+                options: ["Adapting to the environment", "Modifying the environment", "Depending on the environment", "Ignoring the environment"],
+                correct: 0,
+                explanation: "Using air conditioning is adapting - changing how we live to deal with the hot environment."
+            },
+
+            // Movement Questions
+            {
+                type: 'multiple',
+                question: "The movement of ideas is best shown by:",
+                options: ["A family moving to a new city", "Trucks carrying food", "People sharing recipes online", "Birds flying south"],
+                correct: 2,
+                explanation: "Sharing information online is a perfect example of how ideas move quickly around the world."
+            },
+            {
+                type: 'multiple',
+                question: "Transportation networks are like:",
+                options: ["Blood vessels in your body", "Leaves on a tree", "Clouds in the sky", "Fish in the ocean"],
+                correct: 0,
+                explanation: "Transportation networks carry people and goods around the world, like blood vessels carry nutrients through your body."
+            },
+
+            // Geographic Tools Questions
+            {
+                type: 'multiple',
+                question: "Which tool would be best for finding the exact location of your house?",
+                options: ["Political map", "GPS device", "Globe", "Atlas"],
+                correct: 1,
+                explanation: "GPS uses satellites to pinpoint exact locations anywhere on Earth."
+            },
+            {
+                type: 'multiple',
+                question: "GIS is like:",
+                options: ["A camera", "A computer that stacks maps like pancakes", "A compass", "A ruler"],
+                correct: 1,
+                explanation: "GIS layers different types of geographic information on top of each other, like stacking maps."
+            },
+            {
+                type: 'multiple',
+                question: "Satellites are like:",
+                options: ["Underground cameras", "Super-powered eyes in space", "Underwater microphones", "Mountain telescopes"],
+                correct: 1,
+                explanation: "Satellites orbit Earth and take pictures from space, like having super-powered eyes watching from above."
+            },
+            {
+                type: 'multiple',
+                question: "An atlas is:",
+                options: ["A single map", "A book full of many different maps", "A GPS device", "A satellite"],
+                correct: 1,
+                explanation: "An atlas is a collection of maps in book form, like a library of maps."
+            },
+
+            // Matching Questions
+            {
+                type: 'matching',
+                question: "Match each landform with its description:",
+                leftItems: ["Mountain", "Valley", "Plain", "Plateau"],
+                rightItems: ["Low area between hills", "High, flat land like a table", "Large flat area good for farming", "High, steep land that rises sharply"],
+                correctMatches: [3, 0, 2, 1],
+                explanation: "Mountains are high and steep, valleys are low between hills, plains are flat farming areas, and plateaus are high flat land."
+            },
+            {
+                type: 'matching',
+                question: "Match each climate zone with its description:",
+                leftItems: ["Tropical", "Desert", "Temperate", "Polar"],
+                rightItems: ["Cold all year round", "Hot and humid with lots of rain", "Four distinct seasons", "Hot and very dry"],
+                correctMatches: [1, 3, 2, 0],
+                explanation: "Tropical is hot and humid, desert is hot and dry, temperate has four seasons, and polar is cold year-round."
+            },
+            {
+                type: 'matching',
+                question: "Match each geographic tool with its use:",
+                leftItems: ["GPS", "Atlas", "Satellite", "Globe"],
+                rightItems: ["Shows Earth's true round shape", "Takes pictures from space", "Book of many maps", "Finds exact locations"],
+                correctMatches: [3, 2, 1, 0],
+                explanation: "GPS finds locations, atlas is a book of maps, satellites take space pictures, and globes show Earth's true shape."
+            }
+        ];
+
+        // Initialize the page
+        function init() {
+            createCoordinateGrid();
+            updateProgress();
+        }
+
+        // Show different sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to corresponding nav button
+            event.target.classList.add('active');
+            
+            currentSection = sectionId;
+            
+            // Mark section as completed (except intro and quiz)
+            if (sectionId !== 'intro' && sectionId !== 'quiz') {
+                completedSections.add(sectionId);
+                updateProgress();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const totalSections = 8; // Excluding intro and quiz
+            const completed = completedSections.size;
+            const percentage = (completed / totalSections) * 100;
+            
+            document.getElementById('overallProgress').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `Progress: ${Math.round(percentage)}% Complete`;
+        }
+
+        // Create interactive coordinate grid
+        function createCoordinateGrid() {
+            const grid = document.getElementById('coordinateGrid');
+            grid.innerHTML = '';
+            
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 8; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    cell.textContent = `${col},${row}`;
+                    cell.onclick = () => showCoordinates(col, row, cell);
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        // Show coordinates when grid cell is clicked
+        function showCoordinates(x, y, cell) {
+            // Remove previous selections
+            document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('clicked'));
+            
+            // Mark this cell as clicked
+            cell.classList.add('clicked');
+            
+            // Convert to latitude/longitude-like coordinates
+            const lat = 90 - (y * 30); // Convert to latitude-like
+            const lon = -180 + (x * 45); // Convert to longitude-like
+            
+            document.getElementById('coordinateDisplay').innerHTML = `
+                <strong>Grid Position:</strong> (${x}, ${y})<br>
+                <strong>Approximate Coordinates:</strong> ${lat}°N, ${Math.abs(lon)}°${lon < 0 ? 'W' : 'E'}<br>
+                <em>Great job! You found coordinates ${x}, ${y}!</em>
+            `;
+        }
+
+        // Show theme examples
+        function showThemeExample(theme) {
+            const examples = {
+                location: `
+                    <h4>📍 Location Examples</h4>
+                    <ul>
+                        <li><strong>Absolute:</strong> "The White House is at 38.8977°N, 77.0365°W"</li>
+                        <li><strong>Relative:</strong> "The White House is in Washington, D.C., near the Washington Monument"</li>
+                        <li><strong>Absolute:</strong> "Tokyo is at 35.6762°N, 139.6503°E"</li>
+                        <li><strong>Relative:</strong> "Tokyo is on the eastern coast of Japan"</li>
+                    </ul>
+                `,
+                place: `
+                    <h4>🏞️ Place Examples</h4>
+                    <ul>
+                        <li><strong>Physical:</strong> "Hawaii has volcanoes, beaches, and tropical climate"</li>
+                        <li><strong>Human:</strong> "Hawaii has Polynesian culture, tourism industry, and modern cities"</li>
+                        <li><strong>Physical:</strong> "Alaska has glaciers, mountains, and cold climate"</li>
+                        <li><strong>Human:</strong> "Alaska has oil industry, indigenous cultures, and small towns"</li>
+                    </ul>
+                `,
+                interaction: `
+                    <h4>🤝 Human-Environment Interaction Examples</h4>
+                    <ul>
+                        <li><strong>Adapt:</strong> "Inuit people wear warm fur clothing in the Arctic"</li>
+                        <li><strong>Modify:</strong> "Dutch people built dikes to hold back ocean water"</li>
+                        <li><strong>Depend:</strong> "Farmers depend on fertile soil and rainfall for crops"</li>
+                        <li><strong>Adapt:</strong> "People in hot climates take siestas during the hottest part of the day"</li>
+                    </ul>
+                `,
+                movement: `
+                    <h4>🚀 Movement Examples</h4>
+                    <ul>
+                        <li><strong>People:</strong> "Millions of people immigrated from Europe to America in the 1800s"</li>
+                        <li><strong>Goods:</strong> "Coffee beans grown in Colombia are sold in cafes worldwide"</li>
+                        <li><strong>Ideas:</strong> "The internet allows instant communication across the globe"</li>
+                        <li><strong>People:</strong> "Students travel abroad to study in different countries"</li>
+                    </ul>
+                `,
+                region: `
+                    <h4>🌎 Region Examples</h4>
+                    <ul>
+                        <li><strong>Physical:</strong> "The Rocky Mountain region shares similar mountain landscapes"</li>
+                        <li><strong>Cultural:</strong> "The Middle East region shares similar languages and religions"</li>
+                        <li><strong>Economic:</strong> "Silicon Valley is known for technology companies"</li>
+                        <li><strong>Climate:</strong> "The Mediterranean region has similar warm, dry summers"</li>
+                    </ul>
+                `
+            };
+            
+            const container = document.getElementById('themeExamples');
+            container.innerHTML = examples[theme];
+            container.style.display = 'block';
+        }
+
+        // Show different landforms
+        function showLandform(type) {
+            const descriptions = {
+                mountain: "Mountains are high, steep land that rises sharply - like giant bumps on Earth's surface!",
+                hill: "Hills are smaller elevated land, like mini-mountains or gentle bumps in the landscape!",
+                valley: "Valleys are low land between hills or mountains - like the bottom of a bowl!",
+                plain: "Plains are large areas of flat land - like a huge, flat playground perfect for farming!",
+                plateau: "Plateaus are high, flat land that rises above surrounding areas - like a giant table on stilts!"
+            };
+            
+            const shapes = {
+                mountain: '<div style="width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 100px solid #8B4513;"></div>',
+                hill: '<div style="width: 80px; height: 60px; background: #228B22; border-radius: 50px 50px 0 0;"></div>',
+                valley: '<div style="width: 100px; height: 30px; background: #4169E1; border-radius: 0 0 50px 50px; margin-top: 50px;"></div>',
+                plain: '<div style="width: 120px; height: 40px; background: #DAA520; margin-top: 40px;"></div>',
+                plateau: '<div style="width: 100px; height: 80px; background: #CD853F; border-radius: 5px 5px 0 0;"></div>'
+            };
+            
+            document.getElementById('landformShape').innerHTML = shapes[type];
+            document.getElementById('landformDescription').textContent = descriptions[type];
+        }
+
+        // Map type selection
+        function selectMapType(element, result) {
+            // Remove previous selections
+            element.parentNode.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark this option
+            element.classList.add('selected');
+            
+            setTimeout(() => {
+                if (result === 'correct') {
+                    element.classList.add('correct');
+                    element.parentNode.innerHTML += '<div class="quiz-explanation"><h4>✅ Correct!</h4><p>Road maps show highways, streets, and routes needed for travel planning. They\'re perfect for road trips!</p></div>';
+                } else {
+                    element.classList.add('incorrect');
+                    element.parentNode.querySelector('.quiz-option').classList.add('correct');
+                    element.parentNode.innerHTML += '<div class="quiz-explanation"><h4>❌ Not quite!</h4><p>The correct answer is Road Map. Road maps show highways, streets, and routes needed for travel planning.</p></div>';
+                }
+            }, 500);
+        }
+
+        // Quiz functions
+        function startQuiz() {
+            quizData = [...allQuizQuestions];
+            currentQuizQuestion = 0;
+            quizAnswers = {};
+            quizStarted = true;
+            
+            document.getElementById('quizContainer').innerHTML = '';
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            const question = quizData[currentQuizQuestion];
+            const progress = ((currentQuizQuestion + 1) / quizData.length) * 100;
+            
+            document.getElementById('quizProgress').style.width = progress + '%';
+            document.getElementById('quizProgressText').textContent = `Question ${currentQuizQuestion + 1} of ${quizData.length}`;
+            
+            let questionHTML = '';
+            
+            if (question.type === 'multiple') {
+                questionHTML = `
+                    <div class="quiz-question">
+                        <h4>Question ${currentQuizQuestion + 1}</h4>
+                        <p><strong>${question.question}</strong></p>
+                        <div class="quiz-options">
+                            ${question.options.map((option, index) => 
+                                `<div class="quiz-option" onclick="selectAnswer(${index})">${String.fromCharCode(65 + index)}. ${option}</div>`
+                            ).join('')}
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="btn" onclick="previousQuestion()" ${currentQuizQuestion === 0 ? 'disabled' : ''}>← Previous</button>
+                            <button class="btn" onclick="nextQuestion()" id="nextBtn" disabled>Next →</button>
+                            ${currentQuizQuestion === quizData.length - 1 ? '<button class="btn" onclick="finishQuiz()" id="finishBtn" disabled style="background: #28a745;">Finish Quiz</button>' : ''}
+                        </div>
+                    </div>
+                `;
+            } else if (question.type === 'matching') {
+                questionHTML = `
+                    <div class="quiz-question">
+                        <h4>Question ${currentQuizQuestion + 1}</h4>
+                        <p><strong>${question.question}</strong></p>
+                        <div class="matching-container">
+                            <div class="matching-column">
+                                <h5>Items to Match:</h5>
+                                ${question.leftItems.map((item, index) => 
+                                    `<div class="matching-item" onclick="selectMatchingItem('left', ${index})" id="left-${index}">${item}</div>`
+                                ).join('')}
+                            </div>
+                            <div class="matching-column">
+                                <h5>Descriptions:</h5>
+                                ${question.rightItems.map((item, index) => 
+                                    `<div class="matching-item" onclick="selectMatchingItem('right', ${index})" id="right-${index}">${item}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="btn" onclick="previousQuestion()" ${currentQuizQuestion === 0 ? 'disabled' : ''}>← Previous</button>
+                            <button class="btn" onclick="nextQuestion()" id="nextBtn" disabled>Next →</button>
+                            ${currentQuizQuestion === quizData.length - 1 ? '<button class="btn" onclick="finishQuiz()" id="finishBtn" disabled style="background: #28a745;">Finish Quiz</button>' : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('quizContainer').innerHTML = questionHTML;
+            
+            // Show previous answer if exists
+            if (quizAnswers[currentQuizQuestion] !== undefined) {
+                if (question.type === 'multiple') {
+                    const selectedIndex = quizAnswers[currentQuizQuestion];
+                    document.querySelectorAll('.quiz-option')[selectedIndex].classList.add('selected');
+                    document.getElementById('nextBtn').disabled = false;
+                    if (document.getElementById('finishBtn')) {
+                        document.getElementById('finishBtn').disabled = false;
+                    }
+                }
+            }
+        }
+
+        function selectAnswer(index) {
+            quizAnswers[currentQuizQuestion] = index;
+            
+            // Remove previous selections
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Mark selected option
+            document.querySelectorAll('.quiz-option')[index].classList.add('selected');
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            if (document.getElementById('finishBtn')) {
+                document.getElementById('finishBtn').disabled = false;
+            }
+        }
+
+        let selectedMatching = { left: null, right: null };
+        let matchingAnswers = {};
+
+        function selectMatchingItem(side, index) {
+            // Remove previous selection for this side
+            document.querySelectorAll(`[id^="${side}-"]`).forEach(item => item.classList.remove('selected'));
+            
+            // Select this item
+            document.getElementById(`${side}-${index}`).classList.add('selected');
+            selectedMatching[side] = index;
+            
+            // If both sides selected, create match
+            if (selectedMatching.left !== null && selectedMatching.right !== null) {
+                if (!matchingAnswers[currentQuizQuestion]) {
+                    matchingAnswers[currentQuizQuestion] = {};
+                }
+                matchingAnswers[currentQuizQuestion][selectedMatching.left] = selectedMatching.right;
+                
+                // Reset selection
+                selectedMatching = { left: null, right: null };
+                document.querySelectorAll('.matching-item').forEach(item => item.classList.remove('selected'));
+                
+                // Check if all matches made
+                const question = quizData[currentQuizQuestion];
+                if (Object.keys(matchingAnswers[currentQuizQuestion]).length === question.leftItems.length) {
+                    quizAnswers[currentQuizQuestion] = matchingAnswers[currentQuizQuestion];
+                    document.getElementById('nextBtn').disabled = false;
+                    if (document.getElementById('finishBtn')) {
+                        document.getElementById('finishBtn').disabled = false;
+                    }
+                }
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuizQuestion < quizData.length - 1) {
+                currentQuizQuestion++;
+                showQuizQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuizQuestion > 0) {
+                currentQuizQuestion--;
+                showQuizQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            let score = 0;
+            
+            quizData.forEach((question, index) => {
+                if (question.type === 'multiple') {
+                    if (quizAnswers[index] === question.correct) {
+                        score++;
+                    }
+                } else if (question.type === 'matching') {
+                    const userMatches = quizAnswers[index];
+                    let correctMatches = 0;
+                    question.correctMatches.forEach((correct, leftIndex) => {
+                        if (userMatches[leftIndex] === correct) {
+                            correctMatches++;
+                        }
+                    });
+                    if (correctMatches === question.leftItems.length) {
+                        score++;
+                    }
+                }
+            });
+            
+            const percentage = Math.round((score / quizData.length) * 100);
+            
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('quizResults').style.display = 'block';
+            document.getElementById('finalScore').textContent = `${score}/${quizData.length} (${percentage}%)`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = "🏆 Outstanding! You're a Geography Expert!";
+            } else if (percentage >= 80) {
+                message = "🌟 Excellent! You have mastered geography!";
+            } else if (percentage >= 70) {
+                message = "📚 Great job! You understand geography well!";
+            } else if (percentage >= 60) {
+                message = "🌱 Good effort! Review the lessons and try again!";
+            } else {
+                message = "📖 Keep studying! Geography takes practice to master!";
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+            
+            // Mark quiz as completed
+            completedSections.add('quiz');
+            updateProgress();
+        }
+
+        function restartQuiz() {
+            document.getElementById('quizResults').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            startQuiz();
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>
